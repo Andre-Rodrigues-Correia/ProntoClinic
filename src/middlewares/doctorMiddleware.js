@@ -96,9 +96,10 @@ function doctorValidate(req, res, next){
 
     if(!specialty){
         return res.status(400).json({
-            message: 'Specialty sex is required'
+            message: 'Specialty is required'
         })
     }
+
 
     next();
 }

@@ -3,6 +3,7 @@ import app from '../../src/app.js'
 import {connectDB} from "../../src/database/connection.js";
 import Doctor from "../../src/models/Doctor.js";
 import Clinic from "../../src/models/Clinic.js";
+import {findOne, save} from "../../src/services/doctorService.js";
 beforeAll(async () =>{
     await connectDB();
 })
@@ -12,7 +13,7 @@ afterAll(async () => {
     Clinic.collection.drop()
 })
 
-describe('Should test doctor routes', function () {
+describe('Should test doctor post route', function () {
 
     test('Should create new doctor with success', () => {
 
@@ -248,8 +249,64 @@ describe('Should test doctor routes', function () {
             phone: 99999999999
         }
         return request(app).post('/doctor').send(doctor).then((res) => {
-            expect(res.body.message).toEqual('Specialty sex is required');
+            expect(res.body.message).toEqual('Specialty is required');
             expect(res.status).toEqual(400)
+        });
+    })
+});
+
+
+describe('Should test doctor update routes', function () {
+    let doctor = {
+        name: 'DoctorNameUpdate DoctorSurnameUpdate',
+        mail: 'doctorupdate@mail.com',
+        password: '$Mobr@l123',
+        birthday: '10/10/2000',
+        biologicalSex: 'M',
+        cpf: '584.640.230-57',
+        specialty: 'specialty',
+        phone: 99999999997,
+    }
+
+    test('Should create user for test', () => {
+        return request(app).post('/doctor').send(doctor).then((res) => {
+            expect(res.status).toEqual(200)
+        });
+    })
+
+    test('Should not update dont surname', async () => {
+        doctor = await findOne({ mail: doctor.mail });
+        const updatedDoctor = {
+            name: 'DoctorNameUpdate',
+            mail: 'doctorupdate@mail.com',
+            password: '$Mobr@l123',
+            birthday: '10/10/2000',
+            biologicalSex: 'M',
+            cpf: '584.640.230-57',
+            specialty: 'specialty updated',
+            phone: 99999999997,
+        }
+        return request(app).put(`/doctor/${doctor._id}`).send(updatedDoctor).then((res) => {
+            expect(res.body.message).toEqual('Complete name is required');
+            expect(res.status).toEqual(400)
+        });
+    });
+
+    test('Should update doctor with success', async () => {
+        doctor = await findOne({ mail: doctor.mail });
+        const updatedDoctor = {
+            name: 'DoctorNameUpdate SurnameUpdate',
+            mail: 'doctorupdate@mail.com',
+            password: '$Mobr@l123',
+            birthday: '10/10/2000',
+            biologicalSex: 'M',
+            cpf: '584.640.230-57',
+            specialty: 'specialty updated',
+            phone: 99999999997,
+        }
+        return request(app).put(`/doctor/${doctor._id}`).send(updatedDoctor).then((res) => {
+            expect(res.body.message).toEqual('Doctor updated with success');
+            expect(res.status).toEqual(200);
         });
     })
 });
