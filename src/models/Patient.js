@@ -43,6 +43,12 @@ const PatientSchema = new Schema(
             ref: 'Clinic',
             required: true
         },
+        appoinments: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Appointments'
+            }
+        ],
         createdAt: {
             type: Date,
             default: Date.now,

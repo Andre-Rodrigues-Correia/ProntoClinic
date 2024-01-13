@@ -7,6 +7,30 @@ const ClinicSchema = new Schema(
             required: [true, 'Name is required'],
             trim: true
         },
+        address: {
+            street: {
+                type: String,
+            },
+            district: {
+                type: String,
+                trim: true,
+              },
+              number: {
+                type: Number,
+              },
+              city: {
+                type: String,
+                trim: true,
+              },
+              state: {
+                type: String,
+                trim: true,
+              },
+              country: {
+                type: String,
+                trim: true,
+              }
+        },
         doctors: [
             {
                 type: Schema.Types.ObjectId,
