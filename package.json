@@ -8,7 +8,8 @@
     "test": "tests"
   },
   "jest": {
-    "transform": {}
+    "transform": {},
+    "maxConcurrency": 1
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -16,7 +17,11 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "mongoose": "^8.0.3"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.3",
+    "nodemailer": "^6.9.8",
+    "path": "^0.12.7",
+    "url": "^0.11.3"
   },
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --runInBand --forceExit",

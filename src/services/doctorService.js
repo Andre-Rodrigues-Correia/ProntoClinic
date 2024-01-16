@@ -9,11 +9,15 @@ async function findOne(filter) {
 }
 
 async function find(filter) {
-    return await Doctor.find(filter);
+    return await Doctor.find(filter).select('-password -cpf -phone');
 }
 
 async function updateOne(filter, doctor){
     return await Doctor.updateOne(filter, doctor);
+}
+
+async function deleteOne(filter){
+    return await Doctor.deleteOne(filter);
 }
 
 async function verifyExistisDoctor(doctor){
@@ -28,4 +32,4 @@ async function verifyExistisDoctor(doctor){
     return await Doctor.find(filter);
 }
 
-export { findOne, save, updateOne, find, verifyExistisDoctor }
+export { findOne, save, updateOne, find, verifyExistisDoctor, deleteOne }

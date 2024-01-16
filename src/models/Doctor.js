@@ -64,6 +64,15 @@ const DoctorSchema = new Schema(
           ref: 'Clinic',
           required: true
         },
+        status: {
+            type: Boolean,
+            required: true,
+            default: false,
+        },
+        statusCode: {
+            type: String,
+            trim: true
+        },
         createdAt: {
             type: Date,
             default: Date.now,

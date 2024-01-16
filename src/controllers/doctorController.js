@@ -1,8 +1,9 @@
 import logger from "../utils/logger.js";
 import {ObjectId} from 'mongodb';
-import {findOne, save, updateOne, find, verifyExistisDoctor} from "../services/doctorService.js";
+import {findOne, save, updateOne, find, deleteOne, verifyExistisDoctor} from "../services/doctorService.js";
 import {save as saveClinic} from "../services/clinicService.js"
 import {encryptPassword} from "../utils/passwordUtils.js";
+import {sendActivationMailDoctor} from "../services/mailService.js";
 
 
 async function createDoctor(req, res) {
@@ -17,7 +18,9 @@ async function createDoctor(req, res) {
             })
         }
 
-        const newDoctor = await save({clinic: clinicId, ...req.body})
+        const statusCode = await sendActivationMailDoctor(req.body.mail);
+
+        const newDoctor = await save({clinic: clinicId, statusCode: statusCode, ...req.body})
 
         const clinic = {
             name: req.body.name,
@@ -37,6 +40,38 @@ async function createDoctor(req, res) {
         })
     }
 
+}
+
+async function findDoctor(req, res){
+    const doctorId = req.params.id;
+
+    if(!doctorId){
+        return res.status(400).json({
+            message: 'Parameter Id is required'
+        })
+    }
+
+    try {
+        const filter = {_id: doctorId}
+
+        const doctor = await findOne(filter)
+
+        if(!doctor){
+            return res.status(400).json({
+                message: 'Doctor not found with this id'
+            })
+        }
+
+        return res.status(200).json({
+            message: doctor
+        })
+
+    }catch (error){
+        logger.error(`Error in doctor controller: ${error.message}`)
+        return res.status(500).json({
+            message: 'Internal server error'
+        })
+    }
 }
 
 async function updateDoctor(req, res){
@@ -73,4 +108,94 @@ async function updateDoctor(req, res){
     }
 }
 
-export { createDoctor, updateDoctor }
+
+async function deleteOneDoctor(req, res){
+
+    const doctorId = req.params.id;
+
+    if(!doctorId){
+        return res.status(400).json({
+            message: 'Parameter Id is required'
+        })
+    }
+
+    try {
+        const filter = {_id: doctorId}
+
+        const doctor = await findOne(filter)
+
+        if(!doctor){
+            return res.status(400).json({
+                message: 'Doctor not found with this id'
+            })
+        }
+
+        const deletedDoctor = await deleteOne(filter);
+
+        if(deletedDoctor.deletedCount <= 0){
+            return res.status(500).json({
+                message: 'Internal server error'
+            })
+        }
+
+        return res.status(200).json({
+            message: 'Doctor deleted with success'
+        })
+
+    }catch (error){
+        logger.error(`Error in doctor controller: ${error.message}`)
+        return res.status(500).json({
+            message: 'Internal server error'
+        })
+    }
+}
+
+async function validateDoctorMail(req, res){
+
+    const {mail, code} = req.body
+
+    if(!mail){
+        return res.status(400).json({
+            message: 'Mail is required'
+        })
+    }
+
+    if(!code){
+        return res.status(400).json({
+            message: 'Code is required'
+        })
+    }
+
+    const filter = {mail: mail}
+
+    try {
+        const doctor = await findOne(filter)
+
+        if(!doctor){
+            return res.status(400).json({
+                message: 'Doctor not found with this mail'
+            })
+        }
+
+        if(code === doctor.statusCode){
+
+            await updateOne(filter, {status: true, ...req.body});
+
+            return res.status(200).json({
+                message: 'Account activated with success'
+            })
+        }
+
+        return res.status(500).json({
+            message: 'Not possible validate account'
+        });
+
+    }catch (error) {
+        logger.error(`Error in doctor controller: ${error.message}`)
+        return res.status(500).json({
+            message: 'Internal server error'
+        })
+    }
+}
+
+export { createDoctor, updateDoctor, findDoctor, deleteOneDoctor, validateDoctorMail }
