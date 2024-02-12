@@ -8,15 +8,15 @@ import {
 } from "../controllers/doctorController.js";
 import {doctorValidate} from "../middlewares/doctorMiddleware.js";
 import {encryptPasswordMiddleware} from "../middlewares/passwordMiddleware.js";
-import {verifyToken} from "../middlewares/authMiddleware.js";
+import {checkRule, verifyToken} from "../middlewares/authMiddleware.js";
 
 
 const doctorRoutes = Router();
 
-doctorRoutes.get('/:id',verifyToken, findDoctor);
+doctorRoutes.get('/:id',verifyToken, checkRule(['doctor', 'admin']), findDoctor);
 doctorRoutes.post('/', doctorValidate, encryptPasswordMiddleware, createDoctor);
 doctorRoutes.post('/activate', validateDoctorMail)
-doctorRoutes.put('/:id', doctorValidate, encryptPasswordMiddleware, updateDoctor);
-doctorRoutes.delete('/:id', deleteOneDoctor);
+doctorRoutes.put('/:id',verifyToken, checkRule(['doctor', 'admin']), doctorValidate, encryptPasswordMiddleware, updateDoctor);
+doctorRoutes.delete('/:id',verifyToken, checkRule(['doctor', 'admin']), deleteOneDoctor);
 
 export default doctorRoutes;

@@ -299,7 +299,7 @@ describe('Should test doctor update routes', function () {
             specialty: 'specialty updated',
             phone: 99999999997,
         }
-        return request(app).put(`/doctor/${doctor._id}`).send(updatedDoctor).then((res) => {
+        return request(app).put(`/doctor/${doctor._id}`).send(updatedDoctor).set('Authorization', token).then((res) => {
             expect(res.body.message).toEqual('Complete name is required');
             expect(res.status).toEqual(400)
         });
@@ -318,7 +318,7 @@ describe('Should test doctor update routes', function () {
             specialty: 'specialty updated',
             phone: 99999999997,
         }
-        return request(app).put(`/doctor/${doctor._id}`).send(updatedDoctor).then((res) => {
+        return request(app).put(`/doctor/${doctor._id}`).send(updatedDoctor).set('Authorization', token).then((res) => {
             expect(res.body.message).toEqual('Doctor updated with success');
             expect(res.status).toEqual(200);
         });
@@ -351,6 +351,15 @@ describe('Should test doctor get routes', function () {
         return request(app).get(`/doctor/231156645465`).set('Authorization', token).then((res) => {
             expect(res.body.message).toEqual('Internal server error');
             expect(res.status).toEqual(500);
+        });
+    });
+
+    test('Should not return doctor with invalid token', async () => {
+        doctor = await findOne({ mail: doctor.mail });
+        return request(app).get(`/doctor/${doctor._id}`).set('Authorization', '').then((res) => {
+            console.log(res.body)
+            expect(res.status).toEqual(403);
+            expect(res.body.message).toEqual('Token is required');
         });
     });
 
@@ -411,14 +420,21 @@ describe('Should test doctor delete routes', function () {
     });
 
     test('Should not delete doctor with invalid id', async () => {
-        return request(app).delete(`/doctor/231156645465`).then((res) => {
+        return request(app).delete(`/doctor/231156645465`).set('Authorization', token).then((res) => {
             expect(res.body.message).toEqual('Internal server error');
             expect(res.status).toEqual(500);
         });
     });
 
+    test('Should not delete doctor dont valid token', async () => {
+        return request(app).delete(`/doctor/${doctor._id}`).set('Authorization', '').then((res) => {
+            expect(res.body.message).toEqual('Token is required');
+            expect(res.status).toEqual(403);
+        });
+    });
+
     test('Should delete doctor with valid id', async () => {
-        return request(app).delete(`/doctor/${doctor._id}`).then((res) => {
+        return request(app).delete(`/doctor/${doctor._id}`).set('Authorization', token).then((res) => {
             expect(res.body.message).toEqual('Doctor deleted with success');
             expect(res.status).toEqual(200);
         });

@@ -45,12 +45,6 @@ async function createDoctor(req, res) {
 async function findDoctor(req, res){
     const doctorId = req.params.id;
 
-    if(!doctorId){
-        return res.status(400).json({
-            message: 'Parameter Id is required'
-        })
-    }
-
     try {
         const filter = {_id: doctorId}
 
@@ -76,12 +70,6 @@ async function findDoctor(req, res){
 
 async function updateDoctor(req, res){
     const doctorId = req.params.id;
-
-    if(!doctorId){
-        return res.status(400).json({
-            message: 'Parameter Id is required'
-        })
-    }
 
     const filter = {_id: doctorId}
 
@@ -112,12 +100,6 @@ async function updateDoctor(req, res){
 async function deleteOneDoctor(req, res){
 
     const doctorId = req.params.id;
-
-    if(!doctorId){
-        return res.status(400).json({
-            message: 'Parameter Id is required'
-        })
-    }
 
     try {
         const filter = {_id: doctorId}

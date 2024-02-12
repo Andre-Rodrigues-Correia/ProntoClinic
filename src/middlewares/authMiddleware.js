@@ -24,4 +24,17 @@ async function verifyToken(req, res, next){
     }
 }
 
-export { verifyToken }
+function checkRule(allowedRules){
+    return (req, res, next) => {
+        const user = req.user;
+        if (!allowedRules.includes(user.rule)) {
+            return res.stat(403).json({
+                message: 'Dont permission for this content'
+            })
+        }
+
+        next();
+    };
+}
+
+export { verifyToken, checkRule }
