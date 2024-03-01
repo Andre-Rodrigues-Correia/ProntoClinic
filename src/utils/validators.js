@@ -1,3 +1,5 @@
+import {ObjectId} from "mongodb";
+
 function validateCompleteName(name) {
     name = name.trim();
 
@@ -93,4 +95,8 @@ function validatePhoneNumber(phone){
     return phoneRegex.test(phone);
 }
 
-export {validateCompleteName, validateBirthday, validateStrongPassword, validateBiologicSext, validateCpf, validatePhoneNumber, validateMail}
+function validateMondoDbId(mongoDbId){
+    return ObjectId.isValid(mongoDbId);
+}
+
+export {validateCompleteName, validateBirthday, validateStrongPassword, validateBiologicSext, validateCpf, validatePhoneNumber, validateMail, validateMondoDbId}

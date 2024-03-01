@@ -50,7 +50,7 @@ describe('Should test auth signin router', function () {
     test('should not must log in with with incorrect password', async ()=> {
         return request(app).post('/auth/signin-doctor').send({
             mail: 'andre.correia.testes@gmail.com',
-            password: '$Mobr@l123......'
+            password: '$Mobr@l123..'
         }).then((res) => {
             expect(res.status).toEqual(403)
             expect(res.body.message).toEqual('Incorrect password')

@@ -28,7 +28,7 @@ function checkRule(allowedRules){
     return (req, res, next) => {
         const user = req.user;
         if (!allowedRules.includes(user.rule)) {
-            return res.stat(403).json({
+            return res.status(403).json({
                 message: 'Dont permission for this content'
             })
         }
