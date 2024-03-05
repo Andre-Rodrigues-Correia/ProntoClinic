@@ -61,6 +61,10 @@ const PatientSchema = new Schema(
                 ref: 'Appointments'
             }
         ],
+        cards: {
+            type: [],
+            default: []
+        },
         createdAt: {
             type: Date,
             default: Date.now,
