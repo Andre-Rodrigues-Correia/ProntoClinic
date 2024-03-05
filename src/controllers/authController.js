@@ -28,14 +28,17 @@ async function signInDoctor(req, res) {
             });
         }
 
+        console.log(doctor)
+
         const payload = {
             _id: doctor._id,
             name: doctor.name,
             mail: doctor.mail,
+            clinicId: doctor.clinic,
             rule: 'doctor'
         }
 
-        const token = jwt.sign(payload, SECRET, {expiresIn: '1h'})
+        const token = jwt.sign(payload, SECRET, {expiresIn: '12h'})
 
         res.status(200).json({
             token

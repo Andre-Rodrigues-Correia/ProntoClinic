@@ -38,6 +38,18 @@ const PatientSchema = new Schema(
                 message: 'CPF format is invalid',
             },
         },
+        phone: {
+            type: Number,
+            required: [true, 'Phone number is required'],
+            unique: true,
+            validate: {
+                validator: function (phone) {
+                    const phoneRegex = /^\d{11}$/;
+                    return phoneRegex.test(phone);
+                }
+            },
+            message: 'Phone number is invalid'
+        },
         clinic: {
             type: Schema.Types.ObjectId,
             ref: 'Clinic',
