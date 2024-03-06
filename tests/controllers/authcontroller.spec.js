@@ -3,7 +3,7 @@ import app from '../../src/app.js'
 import {connectDB} from "../../src/database/connection.js";
 import Doctor from "../../src/models/Doctor.js";
 import Clinic from "../../src/models/Clinic.js";
-import {findOne} from "../../src/services/doctorService.js";
+
 
 beforeAll(async () =>{
     await connectDB();

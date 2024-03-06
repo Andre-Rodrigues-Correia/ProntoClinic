@@ -9,7 +9,7 @@ async function createPatient (req, res){
                 message: 'Patient already exists'
             });
         }
-        console.log('aqui')
+
         const newPatient = await save(req.body)
 
         return res.status(200).json({

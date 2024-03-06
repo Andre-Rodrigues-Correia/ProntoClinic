@@ -1,5 +1,4 @@
 import mongoose, {Schema, model} from "mongoose";
-//prontuário
 
 const PatientRecordSchema = new Schema(
     {
@@ -13,41 +12,58 @@ const PatientRecordSchema = new Schema(
             ref: 'Doctor',
             required: true
         },
-        fields: {
+        medicalRecord: {
             anamnese:{
                 complaint: {
                     type: String,
-                    trim: true
+                    trim: true,
+                    default: ''
                 },
                 historyPresentIllness: {
                     type: String,
-                    trim: true
+                    trim: true,
+                    default: ''
                 },
                 historyPreviousIllness:{
                     type: String,
-                    trim: true 
+                    trim: true,
+                    default: ''
                 },
                 previousMedications: {
                     type: String,
-                    trim: true 
+                    trim: true,
+                    default: ''
                 },
                 allergies: {
                     type: String,
-                    trim: true 
+                    trim: true,
+                    default: ''
                 },
                 observations: {
                     type: String,
-                    trim
+                    trim: true,
+                    default: ''
                 },
                 othersInformations: {
                     type: String,
-                    trim
+                    trim: true,
+                    default: ''
                 }
             },
             prescriptions: {
                 medicines: [
                     {
-                        type: String
+                        name: String,
+                        variation: {
+                            min: Number,
+                            max: Number
+                        },
+                        value: Number
+                    }
+                ],
+                exams: [
+                    {
+                        type: Object
                     }
                 ],
                 otherPrescriptions: {

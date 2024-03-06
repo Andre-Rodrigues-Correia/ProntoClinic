@@ -12,6 +12,11 @@ const AppointmentsSchema = new Schema(
             ref: 'Doctor',
             required: [true, 'DoctorId is required'],
         },
+        clinicId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Clinic',
+            required: [true, 'ClinicId is required'],
+        },
         record:{
             type: Schema.Types.ObjectId,
             ref: 'PatientRecords'
@@ -20,7 +25,8 @@ const AppointmentsSchema = new Schema(
             type: String,
             required: [true, 'Status is required'],
             trim: true,
-            enum: ['scheduled', 'confirmed', 'canceled', 'completed', 'Rescheduled', 'absent']
+            enum: ['scheduled', 'confirmed', 'canceled', 'completed', 'Rescheduled', 'absent', 'onHold'],
+            default:'onHold'
         },
         date: {
             type: Date,
