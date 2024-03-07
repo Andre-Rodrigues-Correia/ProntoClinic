@@ -51,7 +51,7 @@ const PatientRecordSchema = new Schema(
                 }
             },
             prescriptions: {
-                medicines: [
+                exams: [
                     {
                         name: String,
                         variation: {
@@ -61,7 +61,7 @@ const PatientRecordSchema = new Schema(
                         value: Number
                     }
                 ],
-                exams: [
+                medicines: [
                     {
                         type: Object
                     }

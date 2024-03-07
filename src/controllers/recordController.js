@@ -7,7 +7,7 @@ async function createRecord(req, res){
         const newRecord = await save(req.body);
 
         return res.status(200).json({
-            message: 'Record created with success'
+            message: newRecord
         })
 
     }catch (error) {

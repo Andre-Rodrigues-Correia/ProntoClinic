@@ -21,7 +21,8 @@
     "mongoose": "^8.0.3",
     "nodemailer": "^6.9.8",
     "path": "^0.12.7",
-    "url": "^0.11.3"
+    "url": "^0.11.3",
+    "vuex-persistedstate": "^4.1.0"
   },
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --runInBand --forceExit",

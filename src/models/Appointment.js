@@ -25,7 +25,7 @@ const AppointmentsSchema = new Schema(
             type: String,
             required: [true, 'Status is required'],
             trim: true,
-            enum: ['scheduled', 'confirmed', 'canceled', 'completed', 'Rescheduled', 'absent', 'onHold'],
+            enum: ['scheduled', 'confirmed', 'canceled', 'completed', 'Rescheduled', 'absent', 'onHold', 'started'],
             default:'onHold'
         },
         date: {
