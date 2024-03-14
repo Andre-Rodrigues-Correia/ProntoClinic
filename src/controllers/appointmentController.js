@@ -11,7 +11,7 @@ async function createAppointment(req, res){
         })
 
     }catch (error) {
-        logger.error(`Error in patient controller: ${error.message}`)
+        logger.error(`Error in appointment controller: ${error.message}`)
         return res.status(500).json({
             message: 'Internal server error'
         })

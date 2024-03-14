@@ -70,7 +70,7 @@ describe('Should test record post routes', () => {
         token = jwt.sign(payload, SECRET, {expiresIn: '1h'})
 
         return request(app).post('/record').send(record).set('Authorization', token).then((res) => {
-            expect(res.body.message).toEqual('Record created with success');
+            expect(res.body.message._id).toEqual(recordId.toString());
             expect(res.status).toEqual(200)
         });
     });

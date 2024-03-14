@@ -17,7 +17,7 @@ beforeAll(async () =>{
 })
 
 afterAll(async () => {
-    //await Appointment.collection.drop();
+    await Appointment.collection.drop();
 })
 
 let token = ''

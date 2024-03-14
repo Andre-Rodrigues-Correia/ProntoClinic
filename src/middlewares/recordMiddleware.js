@@ -4,6 +4,8 @@ function recordValidate(req, res, next){
 
     const { patientId, doctorId, medicalRecord } = req.body;
 
+    console.log(medicalRecord)
+
 
     if(!patientId){
         return res.status(400).json({

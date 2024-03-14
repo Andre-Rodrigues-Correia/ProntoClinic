@@ -49,11 +49,6 @@ function appointmentValidate(req, res, next){
             message: 'record is required'
         })
     }
-    if(!validateMondoDbId(record)){
-        return res.status(400).json({
-            message: 'record is invalid'
-        })
-    }
 
     if(!status){
         return res.status(400).json({

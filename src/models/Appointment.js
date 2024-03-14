@@ -18,8 +18,7 @@ const AppointmentsSchema = new Schema(
             required: [true, 'ClinicId is required'],
         },
         record:{
-            type: Schema.Types.ObjectId,
-            ref: 'PatientRecords'
+            type: Object,
         },
         status: {
             type: String,
